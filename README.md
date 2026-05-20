@@ -241,3 +241,4 @@ Content-Type: application/json
 - **Código en inglés, mensajes en español**: nombres de clases, variables y endpoints en inglés (estándar de la industria); cualquier texto que vea el usuario está en español.
 - **Versionado de API (`/v1`)**: permite evolucionar el backend sin romper clientes existentes.
 - **`correctAnswer` no se expone** en `ExerciseResponse`: solo viaja en la respuesta tras enviar la respuesta del usuario. Evita filtrar las soluciones por la API.
+# InglesProyect
