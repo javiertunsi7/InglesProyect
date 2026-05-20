@@ -1,0 +1,39 @@
+# Backend
+backend/target/
+backend/.mvn/
+backend/.idea/
+backend/*.iml
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+
+# Env files: nunca commitear los valores reales. El .env.example sí va al repo.
+frontend/.env
+frontend/.env.local
+frontend/.env.*.local
+backend/.env
+backend/.env.local
+.env.prod
+
+# OS / IDEs
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Coverage / test reports
+frontend/coverage/
+
+# AI assistant config
+.claude/
+
+# Scaffold / demo
+demo/
+
+# Logs
+frontend/vite.log
+
+# OS metadata
+*.iml

@@ -1,0 +1,13 @@
+package com.englishlearning.repository;
+
+import com.englishlearning.domain.model.Block;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+@Repository
+public interface BlockRepository extends JpaRepository<Block, Long> {
+
+    List<Block> findByLevelIdOrderByPositionAsc(Long levelId);
+}
