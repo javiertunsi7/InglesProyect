@@ -20,6 +20,6 @@ public class SubscriptionController {
     @GetMapping("/me")
     public ResponseEntity<SubscriptionStatusResponse> getStatus(
             @AuthenticationPrincipal AuthenticatedUser user) {
-        return ResponseEntity.ok(subscriptionService.getStatus(user.getId()));
+        return ResponseEntity.ok(subscriptionService.getStatus(user.id()));
     }
 }

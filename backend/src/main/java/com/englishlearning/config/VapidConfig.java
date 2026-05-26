@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.security.InvalidAlgorithmParameterException;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
@@ -53,7 +54,10 @@ public class VapidConfig {
                 log.warn("VAPID keys generated in memory. Set app.vapid.public-key and app.vapid.private-key " +
                         "in application.properties to persist them.\n" +
                         "  Public:  {}\n  Private: {}", publicKey, privateKey);
-            } catch (NoSuchAlgorithmException e) {
+            } catch (NoSuchAlgorithmException | InvalidAlgorithmParameterException e) {
+                // El generador EC no acepta la curva o el algoritmo: en ese caso
+                // no podemos servir push notifications. Fallar arranque es
+                // preferible a un VAPID nulo que rompería /v1/push silenciosamente.
                 throw new RuntimeException("Failed to generate VAPID keys", e);
             }
         }

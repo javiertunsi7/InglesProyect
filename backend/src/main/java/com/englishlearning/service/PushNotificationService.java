@@ -5,6 +5,7 @@ import com.englishlearning.domain.model.PushSubscription;
 import com.englishlearning.dto.PushSubscribeRequest;
 import com.englishlearning.repository.PushSubscriptionRepository;
 import lombok.RequiredArgsConstructor;
+import nl.martijndwars.webpush.Notification;
 import nl.martijndwars.webpush.Subscription;
 import org.apache.http.HttpResponse;
 import org.slf4j.Logger;
@@ -76,7 +77,10 @@ public class PushNotificationService {
             Subscription.Keys keys = new Subscription.Keys(sub.getAuthKey(), sub.getP256dhKey());
             Subscription subscription = new Subscription(sub.getEndpoint(), keys);
 
-            HttpResponse response = pushService.send(subscription, payload.getBytes(StandardCharsets.UTF_8));
+            // El SDK webpush construye el Notification con el payload como
+            // String (lo serializa internamente). Se envía pushService.send(notification).
+            Notification notification = new Notification(subscription, payload);
+            HttpResponse response = pushService.send(notification);
 
             if (response.getStatusLine().getStatusCode() != 201) {
                 log.warn("Push send returned {}: {}", response.getStatusLine().getStatusCode(),

@@ -34,7 +34,7 @@ public class PushController {
     public ResponseEntity<Void> subscribe(
             @AuthenticationPrincipal AuthenticatedUser user,
             @Valid @RequestBody PushSubscribeRequest request) {
-        pushService.subscribe(user.getId(), request);
+        pushService.subscribe(user.id(), request);
         return ResponseEntity.ok().build();
     }
 
@@ -46,7 +46,7 @@ public class PushController {
 
     @PostMapping("/test")
     public ResponseEntity<Void> sendTest(@AuthenticationPrincipal AuthenticatedUser user) {
-        pushService.sendTest(user.getId());
+        pushService.sendTest(user.id());
         return ResponseEntity.ok().build();
     }
 }
