@@ -31,6 +31,7 @@ frontend/coverage/
 
 # Scaffold / demo
 demo/
+InglesProyect/
 
 # Logs
 frontend/vite.log
