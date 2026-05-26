@@ -4,10 +4,13 @@ import com.englishlearning.domain.enums.CategoryType;
 import com.englishlearning.domain.enums.LevelCode;
 import com.englishlearning.dto.DictionaryEntryResponse;
 import com.englishlearning.dto.DictionaryPageResponse;
+import com.englishlearning.security.JwtService;
+import com.englishlearning.security.SecurityConfig;
 import com.englishlearning.service.DictionaryService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -21,6 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(DictionaryController.class)
+@Import(SecurityConfig.class)
 class DictionaryControllerTest {
 
     @Autowired
@@ -28,6 +32,9 @@ class DictionaryControllerTest {
 
     @MockitoBean
     private DictionaryService dictionaryService;
+
+    @MockitoBean
+    private JwtService jwtService;
 
     @Test
     void search_shouldReturn200WithEntries() throws Exception {

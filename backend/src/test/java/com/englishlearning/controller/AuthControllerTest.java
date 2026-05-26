@@ -4,6 +4,8 @@ import com.englishlearning.dto.AuthResponse;
 import com.englishlearning.dto.LoginRequest;
 import com.englishlearning.dto.RegisterRequest;
 import com.englishlearning.exception.BadRequestException;
+import com.englishlearning.security.JwtService;
+import com.englishlearning.security.SecurityConfig;
 import com.englishlearning.service.AuthService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -21,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(AuthController.class)
-@Import(TestSecurityConfig.class)
+@Import(SecurityConfig.class)
 class AuthControllerTest {
 
     @Autowired
@@ -32,6 +34,9 @@ class AuthControllerTest {
 
     @MockitoBean
     private AuthService authService;
+
+    @MockitoBean
+    private JwtService jwtService;
 
     @Test
     void register_shouldReturn200WithToken() throws Exception {
