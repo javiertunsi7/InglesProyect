@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { exerciseService } from '../services/exerciseService.js';
 import { useTTS } from '../hooks/useTTS.js';
 import SpeakingCard from './SpeakingCard.jsx';
@@ -278,6 +278,17 @@ function QuestionCard({ question, index, onAnswered, disabled }) {
   const handlePlay = useCallback(() => {
     speak(question.audioText || question.prompt, 'en-US');
   }, [question.audioText, question.prompt, speak]);
+
+  // Auto-play del audio al cargar la pregunta cuando es LISTENING/DICTATION:
+  // el usuario espera oír el clip inmediatamente. SpeechSynthesis funciona sin
+  // gesto en Chrome/Edge; en navegadores que lo bloqueen, queda el botón manual.
+  useEffect(() => {
+    if (!isAnswered && (question.type === 'LISTENING' || question.type === 'DICTATION')) {
+      handlePlay();
+    }
+    // Sólo al montar / al cambiar de pregunta — no en cada render.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [question.id]);
 
   const handleAnswer = async (answer) => {
     if (!answer || !answer.trim()) {

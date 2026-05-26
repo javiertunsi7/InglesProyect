@@ -109,14 +109,24 @@ public final class SeedCatalog {
 
     private static BlockSeed techBlockA1Foundations() {
         List<ExerciseSeed> exercises = new ArrayList<>();
-        exercises.add(new ExerciseSeed("Presentaciones", "Saludos y datos básicos", 6, 30, List.of(
+        // Ejercicio 1 — vitrina con los 4 tipos nuevos (LISTENING, DICTATION,
+        // WORD_ORDER, MATCHING) mezclados con los tradicionales. Sirve además
+        // como prueba visual de los renders y del TTS auto-play.
+        exercises.add(new ExerciseSeed("Presentaciones", "Saludos y datos básicos", 8, 40, List.of(
                 tr("Hola, ¿cómo estás?", "hello, how are you", null, null),
                 rev("¿Cómo te llamas?", "what is your name", null, null),
-                mc("Elige el saludo correcto para la mañana:", "morning",
-                        opt("Good night", false), opt("Good morning", true), opt("Goodbye", false)),
+                listen("¿Qué saludo escuchas?", "Good morning, everyone.", "good morning, everyone",
+                        "Reproducir el audio y escribir lo que dice."),
+                dict("How are you today?", "how are you today",
+                        "Dictado: lo que escuchas, eso escribes."),
+                wo("Ordena la frase: hablo inglés un poco", "i speak a little english",
+                        "Orden básico: sujeto + verbo + complementos."),
+                match("Empareja saludos con su traducción:",
+                        "Good morning", "Buenos días",
+                        "Good night",   "Buenas noches",
+                        "See you",      "Hasta luego"),
                 tr("Soy desarrollador.", "i am a developer", "Frase clave en entrevistas.", null),
-                fb("Completa: 'My ___ is Ana.'", "name", null, "Frase muy común en presentaciones."),
-                rev("Trabajo en una startup.", "i work at a startup", null, null)
+                fb("Completa: 'My ___ is Ana.'", "name", null, "Frase muy común en presentaciones.")
         )));
         for (int i = 2; i <= 10; i++) {
             exercises.add(genericExercise("Vocabulario base #" + i,
@@ -427,6 +437,47 @@ public final class SeedCatalog {
                 correct, explanation, List.of());
     }
 
+    /** LISTENING: el usuario oye {@code audioText} y responde a {@code prompt}. */
+    private static QuestionSeed listen(String prompt, String audioText, String correct, String explanation) {
+        return new QuestionSeed(QuestionType.LISTENING, prompt, null, null, null,
+                correct, explanation, List.of(), audioText);
+    }
+
+    /** DICTATION: el usuario oye {@code audioText} y lo transcribe ({@code correct} = mismo texto). */
+    private static QuestionSeed dict(String audioText, String correct, String explanation) {
+        return new QuestionSeed(QuestionType.DICTATION, "Escucha y escribe.", null, null, null,
+                correct, explanation, List.of(), audioText);
+    }
+
+    /** WORD_ORDER: el cliente recibe las palabras de {@code correct} mezcladas y el usuario las ordena. */
+    private static QuestionSeed wo(String prompt, String correct, String explanation) {
+        return new QuestionSeed(QuestionType.WORD_ORDER, prompt, null, null, null,
+                correct, explanation, List.of(), null);
+    }
+
+    /**
+     * MATCHING: define {@code n} parejas (left↔right) bajo distintos {@code matchGroup}.
+     * Cada par se persiste como dos {@link OptionSeed}s con el mismo {@code matchGroup}.
+     * El answer correcto es la lista de pairIds en orden ascendente (p1,p2,p3,...) — pero
+     * el wire frontend↔backend tiene un bug abierto (ver tarea #48).
+     */
+    private static QuestionSeed match(String prompt, String... leftRightPairs) {
+        if (leftRightPairs.length % 2 != 0) {
+            throw new IllegalArgumentException("match() necesita pares left,right");
+        }
+        List<OptionSeed> options = new java.util.ArrayList<>();
+        StringBuilder answer = new StringBuilder();
+        for (int i = 0; i < leftRightPairs.length; i += 2) {
+            String pairId = "p" + (i / 2 + 1);
+            options.add(new OptionSeed(leftRightPairs[i], true, pairId));      // left
+            options.add(new OptionSeed(leftRightPairs[i + 1], true, pairId));  // right
+            if (i > 0) answer.append(',');
+            answer.append(pairId);
+        }
+        return new QuestionSeed(QuestionType.MATCHING, prompt, null, null, null,
+                answer.toString(), null, options, null);
+    }
+
     private static OptionSeed opt(String value, boolean correct) {
         return new OptionSeed(value, correct);
     }
@@ -658,7 +709,19 @@ public final class SeedCatalog {
 
     public record QuestionSeed(QuestionType type, String prompt, String promptHighlight,
                                String context, String hint, String correctAnswer, String explanation,
-                               List<OptionSeed> options) {}
+                               List<OptionSeed> options, String audioText) {
+        /** Constructor de compatibilidad: los seeds previos (TR/REV/MC/FB/SPK) no tienen audioText. */
+        public QuestionSeed(QuestionType type, String prompt, String promptHighlight,
+                            String context, String hint, String correctAnswer, String explanation,
+                            List<OptionSeed> options) {
+            this(type, prompt, promptHighlight, context, hint, correctAnswer, explanation, options, null);
+        }
+    }
 
-    public record OptionSeed(String value, boolean correct) {}
+    public record OptionSeed(String value, boolean correct, String matchGroup) {
+        /** Constructor de compatibilidad: MC no usa matchGroup, solo MATCHING. */
+        public OptionSeed(String value, boolean correct) {
+            this(value, correct, null);
+        }
+    }
 }

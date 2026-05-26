@@ -150,8 +150,12 @@ public class DataInitializer implements CommandLineRunner {
                             .hint(qSeed.hint())
                             .correctAnswer(qSeed.correctAnswer())
                             .explanation(qSeed.explanation())
+                            .audioText(qSeed.audioText())
                             .build());
-                    if (qSeed.type() == QuestionType.MULTIPLE_CHOICE) {
+                    // MULTIPLE_CHOICE y MATCHING persisten opciones; las de MATCHING
+                    // llevan además matchGroup para identificar la pareja.
+                    if (qSeed.type() == QuestionType.MULTIPLE_CHOICE
+                            || qSeed.type() == QuestionType.MATCHING) {
                         int optPosition = 0;
                         char letter = 'A';
                         for (SeedCatalog.OptionSeed optSeed : qSeed.options()) {
@@ -161,6 +165,7 @@ public class DataInitializer implements CommandLineRunner {
                                     .label(String.valueOf(letter++))
                                     .value(optSeed.value())
                                     .isCorrect(optSeed.correct())
+                                    .matchGroup(optSeed.matchGroup())
                                     .build());
                         }
                     }
