@@ -1,0 +1,215 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0" version="24.0.0">
+  <diagram name="Arquitectura" id="english-learning-arch">
+    <mxGraphModel dx="1422" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- =====================  USER  ===================== -->
+        <mxCell id="user" value="&#x1F464; Usuario&#xa;(Navegador)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFE6CC;strokeColor=#D79B00;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="380" width="120" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- =====================  FRONTEND CONTAINER  ===================== -->
+        <mxCell id="frontend" value="FRONTEND · React + Vite (puerto 5173)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;fontStyle=1;verticalAlign=top;align=left;spacingLeft=10;spacingTop=8;" vertex="1" parent="1">
+          <mxGeometry x="220" y="100" width="430" height="640" as="geometry" />
+        </mxCell>
+
+        <mxCell id="fe-router" value="App.jsx&#xa;(React Router)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="260" y="150" width="160" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="fe-pages" value="Pages&#xa;HomePage · LevelSelectionPage · ExercisePage · NotFoundPage" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="260" y="220" width="350" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="fe-components" value="Components&#xa;Header · CategoryCard · LevelCard · ExerciseCard" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="260" y="300" width="350" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="fe-hooks" value="Hooks&#xa;useFetch (loading / error / data)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="260" y="380" width="350" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="fe-services" value="Services&#xa;categoryService · levelService · exerciseService" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="260" y="450" width="350" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="fe-axios" value="apiClient (axios)&#xa;baseURL: /api/v1 · timeout · interceptor de errores" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="260" y="530" width="350" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="fe-proxy" value="Vite dev proxy&#xa;/api → http://localhost:8080" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontStyle=2;" vertex="1" parent="1">
+          <mxGeometry x="260" y="610" width="350" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="fe-styles" value="styles/global.css&#xa;tema oscuro · variables CSS" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="260" y="680" width="350" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- =====================  BACKEND CONTAINER  ===================== -->
+        <mxCell id="backend" value="BACKEND · Spring Boot 3.4 + Java 21 (puerto 8080)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;fontStyle=1;verticalAlign=top;align=left;spacingLeft=10;spacingTop=8;" vertex="1" parent="1">
+          <mxGeometry x="720" y="100" width="500" height="640" as="geometry" />
+        </mxCell>
+
+        <mxCell id="be-cors" value="WebConfig (CORS)&#xa;permite origin :5173" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="760" y="150" width="420" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="be-controllers" value="Controllers · /api/v1&#xa;CategoryController · LevelController · ExerciseController&#xa;@RestController · @GetMapping · @PostMapping" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="760" y="210" width="420" height="70" as="geometry" />
+        </mxCell>
+
+        <mxCell id="be-dto" value="DTOs (records)&#xa;CategoryResponse · LevelResponse · ExerciseResponse · AnswerRequest · AnswerResponse" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="760" y="295" width="420" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="be-services" value="Services (lógica de negocio)&#xa;CategoryService · LevelService · ExerciseService&#xa;@Service · @Transactional(readOnly)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="760" y="370" width="420" height="70" as="geometry" />
+        </mxCell>
+
+        <mxCell id="be-mappers" value="Mappers&#xa;CategoryMapper · LevelMapper · ExerciseMapper (Entity ↔ DTO)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="760" y="455" width="420" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="be-repositories" value="Repositories (Spring Data JPA)&#xa;CategoryRepository · LevelRepository · ExerciseRepository&#xa;extends JpaRepository&lt;T, Long&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="760" y="510" width="420" height="70" as="geometry" />
+        </mxCell>
+
+        <mxCell id="be-models" value="Domain Models (@Entity)&#xa;Category · Level · Exercise&#xa;Enums: CategoryType · LevelCode · ExerciseType" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="760" y="595" width="420" height="70" as="geometry" />
+        </mxCell>
+
+        <mxCell id="be-exceptions" value="GlobalExceptionHandler (@RestControllerAdvice)&#xa;404 · 400 · 500 — mensajes en español" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="760" y="680" width="420" height="45" as="geometry" />
+        </mxCell>
+
+        <!-- =====================  DATABASE  ===================== -->
+        <mxCell id="db" value="H2&#xa;In-Memory DB&#xa;(dev)&#xa;&#xa;tablas:&#xa;categories&#xa;levels&#xa;exercises&#xa;exercise_options" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1280" y="510" width="100" height="160" as="geometry" />
+        </mxCell>
+
+        <mxCell id="seeder" value="DataInitializer&#xa;(CommandLineRunner)&#xa;siembra ejercicios al arrancar" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1240" y="380" width="160" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- =====================  ARROWS  ===================== -->
+        <mxCell id="arr-user-fe" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;fontSize=11;" edge="1" parent="1" source="user" target="fe-router">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points"><mxPoint x="190" y="175" /></Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="arr-user-fe-lbl" value="HTTP :5173" style="text;html=1;align=center;fontSize=10;fontStyle=2;" vertex="1" parent="1">
+          <mxGeometry x="160" y="155" width="80" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="arr-router-pages" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;" edge="1" parent="1" source="fe-router" target="fe-pages">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arr-pages-comp" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;" edge="1" parent="1" source="fe-pages" target="fe-components">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arr-comp-hooks" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;" edge="1" parent="1" source="fe-pages" target="fe-hooks">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arr-hooks-services" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;" edge="1" parent="1" source="fe-hooks" target="fe-services">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arr-services-axios" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;" edge="1" parent="1" source="fe-services" target="fe-axios">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arr-axios-proxy" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;" edge="1" parent="1" source="fe-axios" target="fe-proxy">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Cross-container arrow: proxy -> backend controllers (the network boundary) -->
+        <mxCell id="arr-net" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;strokeWidth=2;strokeColor=#0066CC;dashed=1;fontSize=11;" edge="1" parent="1" source="fe-proxy" target="be-controllers">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="680" y="635" />
+              <mxPoint x="680" y="245" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="arr-net-lbl" value="REST / JSON&#xa;HTTP :8080" style="text;html=1;align=center;fontSize=10;fontStyle=2;fontColor=#0066CC;" vertex="1" parent="1">
+          <mxGeometry x="635" y="380" width="100" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- Backend internal flow -->
+        <mxCell id="arr-cors-ctrl" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;dashed=1;" edge="1" parent="1" source="be-cors" target="be-controllers">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arr-ctrl-dto" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;" edge="1" parent="1" source="be-controllers" target="be-dto">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arr-ctrl-svc" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;" edge="1" parent="1" source="be-dto" target="be-services">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arr-svc-map" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;" edge="1" parent="1" source="be-services" target="be-mappers">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arr-svc-repo" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;" edge="1" parent="1" source="be-mappers" target="be-repositories">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arr-repo-model" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;" edge="1" parent="1" source="be-repositories" target="be-models">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arr-model-db" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;strokeWidth=2;fontSize=10;" edge="1" parent="1" source="be-models" target="db">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arr-model-db-lbl" value="JPA / Hibernate" style="text;html=1;align=center;fontSize=10;fontStyle=2;" vertex="1" parent="1">
+          <mxGeometry x="1190" y="625" width="90" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="arr-seeder-db" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;dashed=1;" edge="1" parent="1" source="seeder" target="db">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Exception flow (decorative, dotted) -->
+        <mxCell id="arr-exc" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;dashed=1;strokeColor=#b85450;" edge="1" parent="1" source="be-services" target="be-exceptions">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="740" y="405" />
+              <mxPoint x="740" y="702" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- =====================  LEGEND  ===================== -->
+        <mxCell id="legend" value="Leyenda" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontStyle=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=6;" vertex="1" parent="1">
+          <mxGeometry x="40" y="510" width="160" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="leg1" value="━━ flujo principal" style="text;html=1;align=left;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="50" y="540" width="140" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="leg2" value="┄┄ cross-cutting / config" style="text;html=1;align=left;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="50" y="560" width="140" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="leg3" value="🟦 frontend" style="text;html=1;align=left;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="50" y="580" width="140" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="leg4" value="🟩 backend" style="text;html=1;align=left;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="50" y="600" width="140" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="leg5" value="🟪 persistencia" style="text;html=1;align=left;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="50" y="620" width="140" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="leg6" value="🟨 transversales (DTO, CORS, axios)" style="text;html=1;align=left;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="50" y="640" width="140" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="leg7" value="🟥 manejo de errores" style="text;html=1;align=left;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="50" y="670" width="140" height="20" as="geometry" />
+        </mxCell>
+
+        <!-- =====================  TITLE  ===================== -->
+        <mxCell id="title" value="Aprende Inglés · Arquitectura del sistema" style="text;html=1;align=center;fontSize=20;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="30" width="1340" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="subtitle" value="Frontend (React+Vite) ⇆ REST/JSON ⇆ Backend (Spring Boot+Java 21) ⇆ JPA ⇆ H2" style="text;html=1;align=center;fontSize=12;fontStyle=2;fontColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="40" y="60" width="1340" height="30" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

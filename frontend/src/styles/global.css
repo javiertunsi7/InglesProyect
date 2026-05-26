@@ -3435,3 +3435,63 @@ textarea {
   border-radius: 10px;
   width: 100%;
 }
+
+/* =====================================================================
+   ForecastBars (SRS) — 14 columnas con altura proporcional al número de
+   repasos previstos por día. Usado en /progreso.
+   ===================================================================== */
+
+.forecast {
+  display: grid;
+  grid-template-columns: repeat(14, 1fr);
+  gap: 0.3rem;
+  align-items: end;
+  height: 110px;
+}
+.forecast__col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  height: 100%;
+}
+.forecast__bar-wrap {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+.forecast__bar {
+  width: 100%;
+  max-width: 18px;
+  border-radius: 4px 4px 2px 2px;
+  background: rgba(255, 255, 255, 0.08);
+  transition: height 0.2s ease;
+}
+.forecast__bar--active {
+  background: linear-gradient(180deg, var(--accent), rgba(232, 123, 109, 0.35));
+}
+.forecast__label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1.1;
+}
+.forecast__label small {
+  font-size: 0.65rem;
+  opacity: 0.6;
+}
+.forecast__label--today {
+  color: var(--accent);
+  font-weight: 600;
+}
+@media (max-width: 640px) {
+  .forecast { height: 80px; }
+  .forecast__bar { max-width: 12px; }
+  .forecast__label { font-size: 0.6rem; }
+  .forecast__label small { font-size: 0.55rem; }
+}
