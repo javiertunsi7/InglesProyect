@@ -1,0 +1,46 @@
+name: Deploy demo to GitHub Pages
+
+# Publica SOLO la carpeta demo/ (HTML estático autocontenido con datos
+# mockeados) en GitHub Pages. NO despliega la app full-stack real — eso lo
+# hace deploy.yml contra Fly.io. La demo es para enseñar la UI sin backend.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'demo/**'
+      - '.github/workflows/pages.yml'
+  workflow_dispatch: {}   # permite lanzarlo a mano desde la pestaña Actions
+
+# Permisos que exige el despliegue oficial de Pages.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Un solo despliegue a la vez; cancela el anterior si llega uno nuevo.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload demo folder as Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./demo
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
