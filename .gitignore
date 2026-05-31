@@ -29,8 +29,7 @@ frontend/coverage/
 # AI assistant config
 .claude/
 
-# Scaffold / demo
-demo/
+# Scaffold (carpeta anidada accidental). La demo NO se ignora: se publica en GitHub Pages.
 InglesProyect/
 
 # Logs

@@ -1,0 +1,583 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Demo · Aprende Inglés</title>
+  <style>
+    :root {
+      --color-bg: #0f172a;
+      --color-surface: #1e293b;
+      --color-surface-strong: #273449;
+      --color-text: #e2e8f0;
+      --color-text-muted: #94a3b8;
+      --color-primary: #38bdf8;
+      --color-primary-dark: #0ea5e9;
+      --color-success: #22c55e;
+      --color-danger: #ef4444;
+      --radius: 12px;
+      --shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+      font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--color-bg);
+      color: var(--color-text);
+      min-height: 100vh;
+    }
+    a { color: inherit; text-decoration: none; }
+    button { font-family: inherit; }
+
+    .demo-banner {
+      background: linear-gradient(90deg, #f97316, #ef4444);
+      color: white;
+      text-align: center;
+      padding: 0.5rem 1rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+    }
+
+    .header {
+      background: var(--color-surface);
+      padding: 1.5rem 2rem;
+      box-shadow: var(--shadow);
+      cursor: pointer;
+    }
+    .header__brand {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--color-primary);
+      display: inline-block;
+    }
+    .header__tagline {
+      margin: 0.25rem 0 0;
+      color: var(--color-text-muted);
+      font-size: 0.95rem;
+    }
+
+    .app__main {
+      flex: 1;
+      width: min(960px, 100% - 2rem);
+      margin: 2rem auto;
+    }
+
+    .page__title { font-size: 2rem; margin: 0 0 0.5rem; }
+    .page__subtitle { margin: 0 0 2rem; color: var(--color-text-muted); }
+
+    .back-link {
+      display: inline-block;
+      margin-bottom: 1rem;
+      color: var(--color-primary);
+      font-size: 0.9rem;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
+    }
+
+    .grid {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    }
+
+    .card {
+      display: block;
+      background: var(--color-surface);
+      padding: 1.5rem;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      transition: transform 0.15s ease, background 0.15s ease;
+      border: 1px solid transparent;
+      cursor: pointer;
+    }
+    .card:hover {
+      transform: translateY(-3px);
+      background: var(--color-surface-strong);
+      border-color: var(--color-primary);
+    }
+    .card__title { margin: 0 0 0.5rem; font-size: 1.2rem; }
+    .card__description { margin: 0; color: var(--color-text-muted); font-size: 0.95rem; }
+    .card__cta { display: inline-block; margin-top: 1rem; color: var(--color-primary); font-weight: 600; }
+
+    .level-card__badge {
+      display: inline-block;
+      padding: 0.25rem 0.6rem;
+      border-radius: 999px;
+      color: white;
+      font-weight: 700;
+      font-size: 0.85rem;
+      margin-bottom: 0.75rem;
+    }
+    .level-card__badge--a1 { background: #16a34a; }
+    .level-card__badge--a2 { background: #22c55e; }
+    .level-card__badge--b1 { background: #eab308; }
+    .level-card__badge--b2 { background: #f97316; }
+    .level-card__badge--c1 { background: #ef4444; }
+    .level-card__badge--c2 { background: #a855f7; }
+
+    .exercise-list { display: flex; flex-direction: column; gap: 1rem; }
+
+    .exercise-card {
+      background: var(--color-surface);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+    }
+    .exercise-card__type {
+      display: inline-block;
+      background: var(--color-primary);
+      color: #0f172a;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .exercise-card__statement { font-size: 1.1rem; margin: 1rem 0 1.25rem; }
+
+    .exercise-card__options {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 1rem;
+      display: grid;
+      gap: 0.5rem;
+    }
+    .option {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1rem;
+      background: var(--color-surface-strong);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.15s ease;
+    }
+    .option:hover { background: #344056; }
+    .option--selected {
+      background: rgba(56, 189, 248, 0.2);
+      outline: 1px solid var(--color-primary);
+    }
+
+    .exercise-card__input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      border: 1px solid #334155;
+      background: var(--color-surface-strong);
+      color: var(--color-text);
+      font-size: 1rem;
+      margin-bottom: 1rem;
+    }
+    .exercise-card__input:focus { outline: 2px solid var(--color-primary); }
+
+    .btn {
+      display: inline-block;
+      padding: 0.65rem 1.25rem;
+      border-radius: 8px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      font-size: 0.95rem;
+      transition: opacity 0.15s ease;
+    }
+    .btn:disabled { opacity: 0.6; cursor: not-allowed; }
+    .btn--primary { background: var(--color-primary); color: #0f172a; }
+    .btn--secondary {
+      background: transparent;
+      color: var(--color-primary);
+      border: 1px solid var(--color-primary);
+      margin-top: 0.75rem;
+    }
+
+    .alert { margin-top: 0.75rem; padding: 0.75rem 1rem; border-radius: 8px; }
+    .alert--error { background: rgba(239, 68, 68, 0.15); color: var(--color-danger); }
+
+    .feedback { margin-top: 1rem; padding: 1rem; border-radius: 8px; }
+    .feedback--ok {
+      background: rgba(34, 197, 94, 0.12);
+      color: var(--color-success);
+      border: 1px solid rgba(34, 197, 94, 0.4);
+    }
+    .feedback--ko {
+      background: rgba(239, 68, 68, 0.12);
+      color: var(--color-danger);
+      border: 1px solid rgba(239, 68, 68, 0.4);
+    }
+    .feedback__explanation { color: var(--color-text); margin-top: 0.5rem; font-style: italic; }
+
+    .state { text-align: center; color: var(--color-text-muted); padding: 2rem; }
+  </style>
+</head>
+<body>
+  <div class="demo-banner">MODO DEMO · Datos mockeados (sin backend). La app real funciona idéntica conectada a Spring Boot.</div>
+
+  <header class="header" onclick="navigate('home')">
+    <span class="header__brand">Aprende Inglés</span>
+    <p class="header__tagline">Practica inglés general y técnico por niveles CEFR</p>
+  </header>
+
+  <main class="app__main" id="root"></main>
+
+  <script>
+    // ============================================================
+    // MOCK DATA — mirrors what the Spring Boot backend would return
+    // ============================================================
+    const CATEGORIES = [
+      { id: 1, type: 'GENERAL', displayName: 'Inglés General',
+        description: 'Aprende inglés cotidiano: gramática, vocabulario y conversación.' },
+      { id: 2, type: 'TECH', displayName: 'Inglés Técnico',
+        description: 'Inglés enfocado a programadores: APIs, código, documentación.' },
+    ];
+
+    const LEVEL_DESCRIPTIONS = {
+      A1: 'Principiante: frases básicas y vocabulario esencial.',
+      A2: 'Elemental: situaciones cotidianas simples.',
+      B1: 'Intermedio: ideas claras sobre temas familiares.',
+      B2: 'Intermedio alto: textos complejos y discusiones.',
+      C1: 'Avanzado: uso fluido y flexible del idioma.',
+      C2: 'Maestría: dominio casi nativo.',
+    };
+
+    const LEVEL_CODES = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+
+    const LEVELS = CATEGORIES.flatMap((category, categoryIndex) =>
+      LEVEL_CODES.map((code, levelIndex) => ({
+        id: categoryIndex * 6 + levelIndex + 1,
+        categoryId: category.id,
+        code,
+        title: 'Nivel ' + code,
+        description: LEVEL_DESCRIPTIONS[code],
+      })),
+    );
+
+    const EXERCISES = [
+      // GENERAL · A1
+      { id: 1, levelId: 1, type: 'MULTIPLE_CHOICE',
+        statement: "Choose the correct option: 'I ___ a student.'",
+        options: ['am', 'is', 'are', 'be'],
+        correctAnswer: 'am',
+        explanation: "Con el pronombre 'I' se usa siempre 'am' en presente." },
+      { id: 2, levelId: 1, type: 'TRANSLATION',
+        statement: "Traduce al inglés: 'Buenos días'",
+        options: [],
+        correctAnswer: 'Good morning',
+        explanation: "'Good morning' se usa antes del mediodía." },
+      // GENERAL · A2
+      { id: 3, levelId: 2, type: 'FILL_BLANK',
+        statement: "Complete: 'She ___ to school every day.' (go)",
+        options: [],
+        correctAnswer: 'goes',
+        explanation: 'En presente simple, tercera persona singular añade -s/-es.' },
+      // GENERAL · B1
+      { id: 4, levelId: 3, type: 'MULTIPLE_CHOICE',
+        statement: 'If I ___ rich, I would travel the world.',
+        options: ['am', 'was', 'were', 'be'],
+        correctAnswer: 'were',
+        explanation: "En condicional tipo 2 se usa 'were' para todas las personas." },
+      // GENERAL · B2
+      { id: 5, levelId: 4, type: 'FILL_BLANK',
+        statement: "Complete: 'By next year, I ___ finished my degree.' (have)",
+        options: [],
+        correctAnswer: 'will have',
+        explanation: "Futuro perfecto: 'will have' + participio para acciones futuras completadas." },
+      // GENERAL · C1
+      { id: 6, levelId: 5, type: 'MULTIPLE_CHOICE',
+        statement: "Choose the closest meaning of 'to procrastinate':",
+        options: ['to postpone', 'to hurry', 'to finish', 'to begin'],
+        correctAnswer: 'to postpone',
+        explanation: "'Procrastinate' significa posponer o aplazar tareas." },
+      // GENERAL · C2
+      { id: 7, levelId: 6, type: 'TRANSLATION',
+        statement: "Traduce al inglés: 'No hay mal que por bien no venga.'",
+        options: [],
+        correctAnswer: 'Every cloud has a silver lining',
+        explanation: "Idiom equivalente: literalmente 'cada nube tiene un borde plateado'." },
+      // TECH · A1
+      { id: 8, levelId: 7, type: 'MULTIPLE_CHOICE',
+        statement: "What does 'bug' mean in programming?",
+        options: ['error', 'feature', 'user', 'screen'],
+        correctAnswer: 'error',
+        explanation: "Un 'bug' es un error o fallo en el software." },
+      { id: 9, levelId: 7, type: 'TRANSLATION',
+        statement: "Traduce al inglés: 'archivo'",
+        options: [],
+        correctAnswer: 'file',
+        explanation: "'File' es un archivo. 'Folder' es una carpeta." },
+      // TECH · A2
+      { id: 10, levelId: 8, type: 'FILL_BLANK',
+        statement: "Complete: 'I need to ___ this branch into main.' (combine)",
+        options: [],
+        correctAnswer: 'merge',
+        explanation: "'Merge' es el verbo usado en Git para combinar ramas." },
+      // TECH · B1
+      { id: 11, levelId: 9, type: 'MULTIPLE_CHOICE',
+        statement: 'What does an API endpoint usually return?',
+        options: ['a response', 'a keyboard', 'a monitor', 'a cable'],
+        correctAnswer: 'a response',
+        explanation: "Un endpoint API devuelve una 'response' (respuesta), normalmente en JSON." },
+      // TECH · B2
+      { id: 12, levelId: 10, type: 'FILL_BLANK',
+        statement: "Complete: 'We need to ___ the database before deploying.' (copy as safety)",
+        options: [],
+        correctAnswer: 'back up',
+        explanation: "'Back up' (verbo) = respaldar. 'Backup' (sustantivo) = la copia de seguridad." },
+      // TECH · C1
+      { id: 13, levelId: 11, type: 'MULTIPLE_CHOICE',
+        statement: "Choose the best definition of 'idempotent':",
+        options: [
+          "Produces the same result no matter how many times it's executed",
+          'Runs only once',
+          'Never returns a value',
+          'Throws an exception',
+        ],
+        correctAnswer: "Produces the same result no matter how many times it's executed",
+        explanation: 'Idempotente: una operación que produce el mismo resultado al ejecutarse múltiples veces (ej. PUT en HTTP).' },
+      // TECH · C2
+      { id: 14, levelId: 12, type: 'TRANSLATION',
+        statement: "Traduce al inglés: 'Deuda técnica'",
+        options: [],
+        correctAnswer: 'Technical debt',
+        explanation: "'Technical debt' es el costo futuro de tomar atajos en el código hoy." },
+    ];
+
+    const TYPE_LABELS = {
+      MULTIPLE_CHOICE: 'Opción múltiple',
+      FILL_BLANK: 'Completa el espacio',
+      TRANSLATION: 'Traducción',
+    };
+
+    // ============================================================
+    // MINIMAL ROUTER + STATE
+    // ============================================================
+    const state = {
+      view: 'home',           // 'home' | 'levels' | 'exercises'
+      categoryType: null,
+      levelCode: null,
+      answers: {},            // exerciseId -> { userAnswer, feedback }
+    };
+
+    function navigate(view, params = {}) {
+      state.view = view;
+      state.categoryType = params.categoryType ?? null;
+      state.levelCode = params.levelCode ?? null;
+      render();
+    }
+
+    // ============================================================
+    // MOCK API — same shape as the real backend would return
+    // ============================================================
+    const mockApi = {
+      getCategories: () => CATEGORIES,
+      getLevels: (categoryType) => {
+        const category = CATEGORIES.find((c) => c.type === categoryType);
+        return LEVELS.filter((l) => l.categoryId === category.id);
+      },
+      getExercises: (categoryType, levelCode) => {
+        const category = CATEGORIES.find((c) => c.type === categoryType);
+        const level = LEVELS.find((l) => l.categoryId === category.id && l.code === levelCode);
+        return EXERCISES.filter((e) => e.levelId === level.id);
+      },
+      submitAnswer: (exerciseId, answer) => {
+        const exercise = EXERCISES.find((e) => e.id === exerciseId);
+        const correct =
+          exercise.correctAnswer.trim().toLowerCase() === answer.trim().toLowerCase();
+        return {
+          correct,
+          message: correct ? '¡Correcto! Muy bien hecho.' : 'Incorrecto, sigue intentándolo.',
+          correctAnswer: exercise.correctAnswer,
+          explanation: exercise.explanation,
+        };
+      },
+    };
+
+    // ============================================================
+    // RENDER FUNCTIONS
+    // ============================================================
+    function render() {
+      const root = document.getElementById('root');
+      root.innerHTML =
+        state.view === 'home' ? renderHome()
+        : state.view === 'levels' ? renderLevels()
+        : renderExercises();
+      bindEvents();
+    }
+
+    function renderHome() {
+      const categories = mockApi.getCategories();
+      return `
+        <section class="page">
+          <h1 class="page__title">¿Qué quieres practicar hoy?</h1>
+          <p class="page__subtitle">Elige una categoría para empezar.</p>
+          <div class="grid">
+            ${categories.map((c) => `
+              <div class="card" data-action="goto-levels" data-type="${c.type}">
+                <h3 class="card__title">${c.displayName}</h3>
+                <p class="card__description">${c.description}</p>
+                <span class="card__cta">Empezar →</span>
+              </div>
+            `).join('')}
+          </div>
+        </section>
+      `;
+    }
+
+    function renderLevels() {
+      const categoryLabel = state.categoryType === 'GENERAL' ? 'Inglés General' : 'Inglés Técnico';
+      const levels = mockApi.getLevels(state.categoryType);
+      return `
+        <section class="page">
+          <button class="back-link" data-action="goto-home">← Volver a categorías</button>
+          <h1 class="page__title">Elige tu nivel · ${categoryLabel}</h1>
+          <p class="page__subtitle">Selecciona el nivel CEFR que mejor se adapte a ti.</p>
+          <div class="grid">
+            ${levels.map((l) => `
+              <div class="card" data-action="goto-exercises" data-code="${l.code}">
+                <span class="level-card__badge level-card__badge--${l.code.toLowerCase()}">${l.code}</span>
+                <h3 class="card__title">${l.title}</h3>
+                <p class="card__description">${l.description}</p>
+              </div>
+            `).join('')}
+          </div>
+        </section>
+      `;
+    }
+
+    function renderExercises() {
+      const exercises = mockApi.getExercises(state.categoryType, state.levelCode);
+      return `
+        <section class="page">
+          <button class="back-link" data-action="goto-levels-from-exercises">← Volver a niveles</button>
+          <h1 class="page__title">Ejercicios · ${state.levelCode}</h1>
+          <p class="page__subtitle">Resuelve cada ejercicio y recibirás una explicación en español.</p>
+          ${exercises.length === 0
+            ? '<p class="state">Aún no hay ejercicios para este nivel.</p>'
+            : `<div class="exercise-list">${exercises.map(renderExerciseCard).join('')}</div>`}
+        </section>
+      `;
+    }
+
+    function renderExerciseCard(exercise) {
+      const stored = state.answers[exercise.id] || {};
+      const userAnswer = stored.userAnswer || '';
+      const feedback = stored.feedback;
+      const disabled = feedback ? 'disabled' : '';
+
+      const optionsHtml = exercise.type === 'MULTIPLE_CHOICE'
+        ? `<ul class="exercise-card__options">
+             ${exercise.options.map((opt) => `
+               <li>
+                 <label class="option ${userAnswer === opt ? 'option--selected' : ''}">
+                   <input type="radio" name="ex-${exercise.id}" value="${escapeHtml(opt)}"
+                          ${userAnswer === opt ? 'checked' : ''} ${disabled}
+                          data-action="set-answer" data-exercise-id="${exercise.id}" />
+                   ${escapeHtml(opt)}
+                 </label>
+               </li>
+             `).join('')}
+           </ul>`
+        : `<input type="text" class="exercise-card__input"
+                  placeholder="Escribe tu respuesta..."
+                  value="${escapeHtml(userAnswer)}" ${disabled}
+                  data-action="type-answer" data-exercise-id="${exercise.id}" />`;
+
+      const submitButton = !feedback
+        ? `<button class="btn btn--primary" data-action="submit" data-exercise-id="${exercise.id}">
+             Comprobar respuesta
+           </button>`
+        : '';
+
+      const feedbackHtml = feedback
+        ? `<div class="feedback feedback--${feedback.correct ? 'ok' : 'ko'}">
+             <strong>${feedback.message}</strong>
+             ${!feedback.correct
+                ? `<p>Respuesta correcta: <em>${escapeHtml(feedback.correctAnswer)}</em></p>` : ''}
+             <p class="feedback__explanation">${escapeHtml(feedback.explanation)}</p>
+             <button class="btn btn--secondary" data-action="reset" data-exercise-id="${exercise.id}">
+               Intentar otra vez
+             </button>
+           </div>`
+        : '';
+
+      return `
+        <article class="exercise-card">
+          <header><span class="exercise-card__type">${TYPE_LABELS[exercise.type]}</span></header>
+          <p class="exercise-card__statement">${escapeHtml(exercise.statement)}</p>
+          ${optionsHtml}
+          ${submitButton}
+          ${feedbackHtml}
+        </article>
+      `;
+    }
+
+    function escapeHtml(value) {
+      return String(value)
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#039;');
+    }
+
+    // ============================================================
+    // EVENT WIRING (event delegation, re-attached after each render)
+    // ============================================================
+    function bindEvents() {
+      const root = document.getElementById('root');
+
+      root.addEventListener('click', (event) => {
+        const target = event.target.closest('[data-action]');
+        if (!target) return;
+        const action = target.dataset.action;
+
+        if (action === 'goto-levels') navigate('levels', { categoryType: target.dataset.type });
+        else if (action === 'goto-exercises')
+          navigate('exercises', { categoryType: state.categoryType, levelCode: target.dataset.code });
+        else if (action === 'goto-home') navigate('home');
+        else if (action === 'goto-levels-from-exercises')
+          navigate('levels', { categoryType: state.categoryType });
+        else if (action === 'submit') {
+          const exerciseId = Number(target.dataset.exerciseId);
+          const stored = state.answers[exerciseId] || {};
+          if (!stored.userAnswer || !stored.userAnswer.trim()) {
+            stored.error = 'Escribe una respuesta antes de enviar.';
+            state.answers[exerciseId] = stored;
+            render();
+            return;
+          }
+          stored.feedback = mockApi.submitAnswer(exerciseId, stored.userAnswer);
+          state.answers[exerciseId] = stored;
+          render();
+        } else if (action === 'reset') {
+          delete state.answers[Number(target.dataset.exerciseId)];
+          render();
+        }
+      });
+
+      root.addEventListener('change', (event) => {
+        const target = event.target;
+        if (target.dataset?.action === 'set-answer') {
+          const exerciseId = Number(target.dataset.exerciseId);
+          state.answers[exerciseId] = { ...(state.answers[exerciseId] || {}), userAnswer: target.value };
+          render();
+        }
+      });
+
+      root.addEventListener('input', (event) => {
+        const target = event.target;
+        if (target.dataset?.action === 'type-answer') {
+          const exerciseId = Number(target.dataset.exerciseId);
+          state.answers[exerciseId] = { ...(state.answers[exerciseId] || {}), userAnswer: target.value };
+          // Don't re-render on every keystroke to keep input focus; just store.
+        }
+      });
+    }
+
+    // Initial render
+    render();
+  </script>
+</body>
+</html>
